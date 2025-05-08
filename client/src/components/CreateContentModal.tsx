@@ -24,7 +24,7 @@ export function CreateContentModal ({setModalOpen}: any) {
                     {Object.values(ContentType).map((Content)=>(
                         <Button key={Content} text={Content.charAt(0).toUpperCase() + Content.slice(1)} variant={type===Content?"primary": "secondary"}
                         onclick={()=>setType(Content)}
-                        customClasses={`px-3 sm:px-4 md:px-4 lg:px-4 py-1.5 sm:py-2 md:py-2 lg:py-2 text-sm sm:text-base md:text-base lg:text-base font-medium rounded-md transition-all duration-200 ${
+                        className={`px-3 sm:px-4 md:px-4 lg:px-4 py-1.5 sm:py-2 md:py-2 lg:py-2 text-sm sm:text-base md:text-base lg:text-base font-medium rounded-md transition-all duration-200 ${
                             type === Content
                               ? "bg-[##5046e4] hover:bg-[#6c63e8]"
                               : "bg-gray-200 hover:bg-gray-300 text-gray-700"
@@ -34,7 +34,7 @@ export function CreateContentModal ({setModalOpen}: any) {
                     </div>
                 </div>
                 <div className="flex justify-center mt-6">
-                    <Button text="Submit" variant="primary" customClasses="w-1/3"/>
+                    <Button text="Submit" variant="primary" className="w-1/3"/>
                 </div>
             </div>
         </div>

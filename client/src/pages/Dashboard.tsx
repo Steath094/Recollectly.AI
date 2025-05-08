@@ -23,7 +23,7 @@ export function Dashboard(){
     <div className="grid grid-cols-3 gap-4">
     <Card title="FIrst Video" link="https://www.youtube.com/watch?v=Hysrm6MdfCo" type="youtube"/>
     <Card title="First Tweet" link="https://x.com/steath094/status/1904506296520646723" type="twitter"/>
-    <Card title="FIrst document" link="https://blog.medium.com/your-story-matters-join-us-on-april-25th-for-draft-day-2025-923a150133f4" type="document"/>
+    <Card title="FIrst document" link="https://css4.pub/2015/icelandic/dictionary.pdf" type="document"/>
     <Card title="FIrst Video" link="https://www.youtube.com/watch?v=Hysrm6MdfCo" type="youtube"/>
     <Card title="First Tweet" link="https://x.com/steath094/status/1904506296520646723" type="twitter"/>
     </div>

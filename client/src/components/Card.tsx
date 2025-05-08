@@ -41,7 +41,7 @@ export function Card({title,link,type}: cardProp) {
                 <a href={link.replace("x.com","twitter.com")}></a> 
                 </blockquote>}
             {type==="document" && 
-            <iframe className="w-full h-full" src={link}></iframe>}
+            <iframe className="aspect-auto h-96 border-2 rounded-md" src={link}></iframe>}
         </div>
         <div>
 

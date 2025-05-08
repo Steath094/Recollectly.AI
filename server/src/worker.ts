@@ -1,4 +1,4 @@
-import { QdrantVectorStore } from "@langchain/qdrant";
+import { QdrantFilter, QdrantVectorStore } from "@langchain/qdrant";
 import { Document } from "@langchain/core/documents";
 import { GoogleGenerativeAIEmbeddings } from "@langchain/google-genai";
 import { TaskType } from "@google/generative-ai";
@@ -7,6 +7,8 @@ import { QdrantClient } from "@qdrant/js-client-rest";
 import env from "./endpoints.config";
 import { title } from "process";
 import { link } from "fs";
+import { filterMessages } from "@langchain/core/messages";
+import { log } from "console";
 
 const client = new QdrantClient({ url: env.QDRANT_URL,checkCompatibility:false,apiKey: env.QDRANT_API_KEY});
 
@@ -31,8 +33,10 @@ export const embedAndStore = async (content:{_id:string,title:string,link:string
         client,
         collectionName: "content-vector",
       });
+      
 }
-const queryDB = async (query: string) => {
+const queryDB = async (query: string,userId:string) => {
+
     const vectorStore = await QdrantVectorStore.fromExistingCollection(
         embeddings,
         {
@@ -40,8 +44,8 @@ const queryDB = async (query: string) => {
           collectionName: "content-vector",
         }
       );
-      const response = await vectorStore.similaritySearch(query,5);
-      return response;
+      const results = await vectorStore.similaritySearch(query);
+      return results;
 }
 
 
@@ -50,8 +54,8 @@ const queryDB = async (query: string) => {
     temperature: 0,
     apiKey: env.GOOGLE_API_KEY
   });
-export const queryChat = async (query: string) => {
-    const responses = await queryDB(query);
+export const queryChat = async (query: string,userId:string) => {
+    const responses = await queryDB(query,userId);
     const SYSTEM = `You are a helpful AI assistant.
 
 Your job is to answer user queries using the context of the provided links. These links point to tweets, YouTube videos, documents, or blog posts saved by the user.
@@ -74,8 +78,11 @@ links:-${responses}
     console.log(chatRes);
     
 }
-export const searchDb = async (query:string) =>{
-    const responses = await queryDB(query);
-    console.log(responses);
+export const searchDb = async (query:string,userId:string) =>{
+    const responses = await queryDB(query,userId);
+    const result = responses.filter((document)=>
+      document.metadata.userId == userId
+    )
+    return result;
 }
-queryChat("images")
+searchDb("images",'68165dfdb9c626d0b53d4863')
