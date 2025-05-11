@@ -8,7 +8,7 @@ const Footer = () => {
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 md:gap-0">
         
         {/* Left: Logo */}
-        <Link to="/" className="flex items-center gap-2 text-[#2489D3] font-medium">
+        <Link to="/" className="flex items-center gap-2 text-[#5146e3] font-medium">
           <div className="w-6 h-6 flex items-center"><BrainIcon /></div>
           <span>Recollectly</span>
         </Link>
@@ -19,7 +19,7 @@ const Footer = () => {
         </div>
 
         {/* Right: Social Icons */}
-        <div className="flex gap-4 items-center text-[#2489D3]">
+        <div className="flex gap-4 items-center text-[#5146e3]">
           <a href="https://x.com/steath094" target="_blank" rel="noopener noreferrer" className="hover:opacity-70 transition-opacity">
             <FaTwitter className="w-5 h-5" />
           </a>

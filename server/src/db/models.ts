@@ -25,7 +25,7 @@ userSchema.pre("save",async function (next){
 const tagSchema = new mongoose.Schema({
     title : String
 })
-const contentTypes = ['image', 'video', 'article', 'audio','document'];
+const contentTypes = ['tweet','youtube','document','image'];
 const contentSchema = new mongoose.Schema({
     title: {
         type: String,

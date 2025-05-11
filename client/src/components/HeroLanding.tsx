@@ -3,7 +3,10 @@ import { animate, hover } from "motion"
 import { splitText } from "motion-plus"
 import { useMotionValue } from "motion/react"
 import { useEffect, useRef } from "react"
+import AnchorLink from "react-anchor-link-smooth-scroll";
+import { useNavigate } from "react-router-dom";
 export default function HeroLanding() {
+    const navigate = useNavigate();
   const containerRef = useRef<HTMLDivElement>(null)
     const velocityX = useMotionValue(0)
     const velocityY = useMotionValue(0)
@@ -54,8 +57,10 @@ export default function HeroLanding() {
             <Stylesheet />
             <p className="text-xl h1" >Save your favorite links, videos, tweets, and thoughts — all in one calm, searchable space built for thinkers who don’t want to lose good ideas.</p>
             <div className="flex gap-2">
-                <Button text="Get Started" variant="primary" className="text-xl rounded-2xl"></Button>
-                <Button text="Watch Demo" variant="secondary" className="text-xl rounded-2xl"></Button>
+                <Button onClick={()=>navigate('/signup')} text="Get Started" variant="primary" className="text-xl rounded-2xl cursor-pointer"></Button>
+                <AnchorLink href="#video">
+                    <Button text="Watch Demo" variant="secondary" className="text-xl rounded-2xl cursor-pointer"></Button>
+                </AnchorLink>
             </div>
         </div>
         <div className="w-1/2 flex justify-center items-center">

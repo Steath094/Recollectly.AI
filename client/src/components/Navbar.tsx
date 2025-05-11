@@ -30,9 +30,9 @@ export default function Navbar() {
         </div>
         <div className="flex gap-2">
         
-            <Button onclick={()=> darkModeHandler()} text="" variant="primary" startIcon={dark==true?<MoonIcon/>:<SunIcon/>} className="text-xl rounded-full"/>
-            <Button onclick={()=>navigate('/login')} text="Login" variant="primary" className="text-xl rounded-full"/>
-            <Button text='Sign Up' variant="secondary" className="text-xl rounded-full"/>
+            <Button onClick={()=> darkModeHandler()} text="" variant="primary" startIcon={dark==true?<MoonIcon/>:<SunIcon/>} className="text-xl rounded-full cursor-pointer"/>
+            <Button onClick={()=>navigate('/login')} text="Login" variant="primary" className="text-xl rounded-full cursor-pointer"/>
+            <Button onClick={()=>navigate('/signup')} text='Sign Up' variant="secondary" className="text-xl rounded-full cursor-pointer"/>
         </div>
     </motion.nav>
   )

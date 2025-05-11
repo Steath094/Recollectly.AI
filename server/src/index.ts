@@ -11,9 +11,10 @@ import { random } from "./Utils/Random";
 import env from "./endpoints.config"
 import { log } from "console";
 import { embedAndStore } from "./worker";
+import cors from 'cors';
 const app = express();
 app.use(express.json());
-
+app.use(cors())
 
 app.post("/api/v1/signup", async (req: Request, res: Response) => {
     try {
