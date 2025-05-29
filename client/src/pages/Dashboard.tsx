@@ -18,7 +18,7 @@ interface CardType {
 export function Dashboard(){
   const [modalOpen, setModalOpen] = useState(false)
   const token = useSelector((state:any)=>state.auth.token);
-  // console.log(token);
+  // console.log("Token: ",token);
   
     const [cards, setCards] = useState<CardType[]>([])
     useEffect(() => {
@@ -34,8 +34,8 @@ export function Dashboard(){
     }, [modalOpen]);
     return <div className="flex">
     <Sidebar/>
-    <div className="p-6 flex flex-col gap-4 bg-[#f9fbfc]">
-    <div className="flex justify-between">
+    <div className="p-6 flex flex-col gap-4 bg-[#f9fbfc] w-full h-screen">
+    <div className="flex justify-between w-full">
       <p className="text-2xl font-bold">All Notes</p>
       <div className="flex gap-3">
         <Button variant="secondary" text="Share Brain" startIcon={<ShareIcon/>} />

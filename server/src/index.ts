@@ -26,7 +26,7 @@ app.post("/api/v1/signup", async (req: Request, res: Response) => {
             password: z
               .string()
               .min(8, "Password should be at least 8 characters long")
-              .max(10, "Password should be at most 10 characters long")
+              .max(20, "Password should be at most 10 characters long")
               .regex(/[a-z]/, "Password must include at least one lowercase letter")
               .regex(/[A-Z]/, "Password must include at least one uppercase letter")
               .regex(/[0-9]/, "Password must include at least one number")
@@ -36,7 +36,7 @@ app.post("/api/v1/signup", async (req: Request, res: Response) => {
         const parsedData = requiredBody.safeParse(req.body);
     
         if (!parsedData.success) {
-            res.status(400).json(new ApiResponse(400, null, "Invalid input format"));
+            res.status(200).json(new ApiResponse(400, null, "Invalid input format"));
             return;
         }
     

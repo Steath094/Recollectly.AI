@@ -51,7 +51,7 @@ export default function HeroLanding() {
         }
     }, [])
   return (
-    <div className="w-full h-[600px] flex items-center px-24 py-4 ">
+    <div className="w-full h-[730px] flex items-center px-24 py-4 ">
         <div className="flex-1 flex flex-col gap-7" ref={containerRef}>
             <h1 className="text-6xl leading-17 font-sans font-bold " >Capture the Web. Keep What Matters. Find It Instantly.</h1>
             <Stylesheet />
