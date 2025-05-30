@@ -9,8 +9,8 @@ import { useSelector } from "react-redux";
 const ContentType = {
     Youtube : "youtube",
     Twitter : "tweet",
-    Document: "Document",
-    Link: "Link"
+    Document: "document",
+    Blog: "blog"
 }
 export function CreateContentModal ({setModalOpen}: any) {
     const titleRef = useRef<HTMLInputElement>(null)

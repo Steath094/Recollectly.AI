@@ -12,11 +12,12 @@ interface CardType {
   _id: string;
   title: string;
   link: string;
-  types: "twitter" | "youtube" | "document" | "link";
+  types: "tweet" | "youtube" | "document" | "blog";
   // add others like tags, userId if needed
 }
 export function Dashboard(){
   const [modalOpen, setModalOpen] = useState(false)
+  const [selectedType, setSelectedType] = useState<"all" | "tweet" | "youtube" | "document" | "blog" | "tags">("all");
   const token = useSelector((state:any)=>state.auth.token);
   // console.log("Token: ",token);
   
@@ -32,22 +33,34 @@ export function Dashboard(){
           setCards(response.data.data)
       })
     }, [modalOpen]);
-    return <div className="flex">
-    <Sidebar/>
+    const filteredCards = selectedType === "all" || selectedType === "tags"
+  ? cards
+  : cards.filter((card) => card.types === selectedType);
+
+    return <div className="flex overflow-auto">
+    <Sidebar onSelect={setSelectedType} />
     <div className="p-6 flex flex-col gap-4 bg-[#f9fbfc] w-full h-screen">
     <div className="flex justify-between w-full">
-      <p className="text-2xl font-bold">All Notes</p>
+      <p onClick={()=>setSelectedType("all")} className="text-2xl font-bold cursor-pointer">All Notes</p>
       <div className="flex gap-3">
         <Button variant="secondary" text="Share Brain" startIcon={<ShareIcon/>} />
         <Button variant="primary" text="Add Content" startIcon={<PlusIcon/>} onClick={()=>setModalOpen(true)} />
       </div>
     </div>
     {modalOpen && <CreateContentModal setModalOpen={setModalOpen}/>}
-    <div className="grid grid-cols-3 gap-4">
-      {cards.length>0 && cards.map((card)=>(
-        <Card key={card._id} title={card.title} link={card.link} type={card.types}/>
-      ))}
+    <div className="grid grid-cols-3 gap-4 py-10">
+      {selectedType !== "tags" ? (
+        filteredCards.map((card) => (
+          <Card key={card._id} title={card.title} link={card.link} type={card.types} />
+        ))
+      ) : (
+        <div className="p-6 text-gray-600 text-lg">
+          {/* Replace with tag UI */}
+          <p>Tags View Coming Soon...</p>
+        </div>
+      )}
     </div>
+
   </div>
   </div>
 }
