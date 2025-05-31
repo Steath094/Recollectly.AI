@@ -5,6 +5,7 @@ import LoginPage from "./pages/LoginPage"
 import SignupPage from "./pages/SignupPage"
 import { Provider } from 'react-redux'
 import store from './store/store'
+import SharePage from "./pages/SharePage"
 function App() {
   return <BrowserRouter>
   <Provider store={store}>
@@ -13,6 +14,7 @@ function App() {
       <Route path="/" element={<Home/>}/>
       <Route path="/login" element={<LoginPage/>}/>
       <Route path="/signup" element={<SignupPage/>}/>
+      <Route path="/share/:id" element={<SharePage/>}/>
     </Routes>
   </Provider>
     

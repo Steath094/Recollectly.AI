@@ -22,7 +22,7 @@ export function Sidebar({ onSelect }: SidebarProps) {
         <SidebarItem text="Videos" ItemIcon={<YoutubeIcon />} onClick={() => onSelect("youtube")} />
         <SidebarItem text="Documents" ItemIcon={<DocumentIcon />} onClick={() => onSelect("document")} />
         <SidebarItem text="Links" ItemIcon={<LinkIcon />} onClick={() => onSelect("blog")} />
-        <SidebarItem text="Tags" ItemIcon={<HashtagIcon />} onClick={() => onSelect("tags")} />
+        {/* <SidebarItem text="Tags" ItemIcon={<HashtagIcon />} onClick={() => onSelect("tags")} /> */}
       </div>
     </div>
   );
