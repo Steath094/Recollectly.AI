@@ -58,8 +58,8 @@ export default function HeroLanding() {
   }, []);
 
   return (
-    <section className="w-full py-12 px-6 md:px-24 flex flex-col md:flex-row items-center justify-between gap-10 min-h-[80vh]">
-      <div className="flex flex-col gap-7 flex-1" ref={containerRef}>
+    <section className="w-full lg:py-12 px-6 md:px-24 flex flex-col md:flex-row items-center justify-between gap-10 lg:min-h-[80vh]">
+      <div className="flex flex-col gap-7 flex-1 h-fit" ref={containerRef}>
         <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold font-sans leading-tight">
           Capture the Web. Keep What Matters. Find It Instantly.
         </h1>

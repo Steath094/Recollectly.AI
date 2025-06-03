@@ -7,7 +7,7 @@ interface HeroProp {
 
 export default function HeroBackground({ childItem }: HeroProp) {
   return (
-    <div className="relative w-full min-h-screen flex justify-center items-center overflow-hidden">
+    <div className="relative w-full min-h-screen flex justify-center items-center overflow-hidden dark:bg-gray-950">
       {/* Foreground content */}
       <div className="z-10 w-full px-4 sm:px-6 lg:px-8">{childItem}</div>
 

@@ -52,7 +52,7 @@ export default function Signup() {
     //   </div>
     // </div>
     <div className="min-h-screen w-full flex items-center justify-center">
-          <div className="relative w-1/4 max-w-sm bg-white shadow-md rounded-xl overflow-hidden">
+          <div className="relative xl:w-1/4 w-full max-w-sm bg-white shadow-md rounded-xl overflow-hidden">
             <motion.div
               className="absolute w-[550px] h-[550px] bg-gradient-to-r from-[#e1e8ff] to-[#5146e3] rounded-full -top-[300px] -left-[170px] rotate-[60deg]"
               initial={{ scale: 1 }}

@@ -8,7 +8,7 @@ import Navbar from "../components/Navbar";
 
 function Home() {
   return (
-    <div className="text-black dark:text-white transition-colors duration-300">
+    <div className="text-black dark:text-white transition-colors duration-300 dark:bg-gray-950">
       <div className="flex justify-center">
         <Navbar />
       </div>

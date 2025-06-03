@@ -34,17 +34,6 @@ const benefits = [
   }
 ];
 
-export default function HeroBenefits() {
-  return (
-    <div className="px-6 md:px-16 lg:px-24 py-12">
-      <h2 className="text-3xl md:text-3xl font-semibold mb-10 text-center ">
-        Built for People Who Think Deeply, Move Fast, and Save Everything
-      </h2>
-      <Example />
-    </div>
-  );
-}
-
 function Card(props: any) {
   const [exitX, setExitX] = useState(0);
   const x = useMotionValue(0);
@@ -52,6 +41,8 @@ function Card(props: any) {
   const rotate = useTransform(x, [-150, 0, 150], [-45, 0, 45], {
     clamp: false
   });
+
+  const currentBenefit = benefits[props.index % benefits.length];
 
   const variantsFrontCard = {
     animate: { scale: 1, y: 0, opacity: 1 },
@@ -75,8 +66,6 @@ function Card(props: any) {
     }
   }
 
-  const currentBenefit = benefits[props.index % benefits.length];
-
   return (
     <motion.div
       className="w-56 md:w-80 lg:w-96 h-64 md:h-72 lg:h-80 absolute top-10 cursor-grab"
@@ -97,13 +86,13 @@ function Card(props: any) {
       }
     >
       <motion.div
-        className="w-full h-full bg-white rounded-3xl shadow-lg p-6 flex flex-col justify-center items-center text-center outline-1 outline-[#e0e8ff]"
+        className="w-full h-full rounded-3xl p-6 flex flex-col justify-center items-center text-center 
+          bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 
+          shadow-md dark:shadow-lg outline outline-1 outline-gray-200 dark:outline-gray-800"
         style={{ scale }}
       >
-        <h3 className="text-xl font-semibold text-indigo-700 mb-3">
-          {currentBenefit.title}
-        </h3>
-        <p className="text-gray-600 text-sm leading-relaxed">
+        <h3 className="text-xl font-semibold mb-3">{currentBenefit.title}</h3>
+        <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
           {currentBenefit.description}
         </p>
       </motion.div>
@@ -131,5 +120,16 @@ export function Example() {
         />
       </AnimatePresence>
     </motion.div>
+  );
+}
+
+export default function HeroBenefits() {
+  return (
+    <div className="px-6 md:px-16 lg:px-24 py-16 bg-white dark:bg-gray-950 transition-colors">
+      <h2 className="text-2xl md:text-3xl font-semibold mb-10 text-center text-gray-900 dark:text-gray-100">
+        Built for People Who Think Deeply, Move Fast, and Save Everything
+      </h2>
+      <Example />
+    </div>
   );
 }

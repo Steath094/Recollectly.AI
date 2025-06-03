@@ -6,7 +6,8 @@ import { SunIcon } from "../Icons/SunIcon";
 import { motion, useMotionValueEvent, useScroll } from "motion/react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { Menu, X } from "lucide-react"; // install lucide-react if needed
+import { LogInIcon, Menu, X } from "lucide-react"; // install lucide-react if needed
+import { SiGnuprivacyguard } from "react-icons/si";
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -87,7 +88,7 @@ export default function Navbar() {
             text="Toggle Theme"
             variant="primary"
             startIcon={dark ? <MoonIcon /> : <SunIcon />}
-            className="w-full justify-start"
+            className="w-full justify-start rounded-md"
           />
           {status === false && (
             <>
@@ -96,18 +97,20 @@ export default function Navbar() {
                   navigate("/login");
                   setMenuOpen(false);
                 }}
+                startIcon={<LogInIcon/>}
                 text="Login"
                 variant="primary"
-                className="w-full justify-start"
+                className="w-full justify-start rounded-md"
               />
               <Button
                 onClick={() => {
                   navigate("/signup");
                   setMenuOpen(false);
                 }}
+                startIcon={<SiGnuprivacyguard/>}
                 text="Sign Up"
                 variant="secondary"
-                className="w-full justify-start"
+                className="w-full justify-start rounded-md"
               />
             </>
           )}
