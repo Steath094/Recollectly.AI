@@ -20,6 +20,7 @@ export default function Login() {
     })
     const jwt = response.data.data;
     localStorage.setItem("token", jwt);
+    localStorage.setItem("status","true");
     dispatch(login({token: jwt}))
     navigate('/dashboard')
   }

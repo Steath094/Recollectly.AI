@@ -21,7 +21,9 @@ export function Dashboard(){
   const [shareableLinkModal, setShareableLinkModal] = useState(false)
   const [selectedType, setSelectedType] = useState<"all" | "tweet" | "youtube" | "document" | "blog" | "tags">("all");
   const token = useSelector((state:any)=>state.auth.token);
-  // console.log("Token: ",token);
+  const status = useSelector((state:any)=>state.auth.status);
+  console.log("Token: ",token);
+  console.log("Status: ",status);
   
     const [cards, setCards] = useState<CardType[]>([])
     useEffect(() => {
@@ -53,20 +55,33 @@ export function Dashboard(){
     {shareableLinkModal && <ShareableLinkModal isOpen={shareableLinkModal} onClose={() => setShareableLinkModal(false)} frontendUrl="localhost:5173"/>}
     {modalOpen && <CreateContentModal setModalOpen={setModalOpen}/>}
     <div className="grid grid-cols-3 gap-4 py-10">
-      {selectedType !== "tags" ? (
-        filteredCards.map((card) => (
-          
-          <Card key={card._id} id={card._id} title={card.title} link={card.link} type={card.types} onDeleteSuccess={(deletedId)=>
-            setCards((prev) => prev.filter((c) => c._id !== deletedId))} deleteIcon={true}/>
-        ))
-      ) : (
-        <div className="p-6 text-gray-600 text-lg">
-          {/* Replace with tag UI */}
-          <p>Tags View Coming Soon...</p>
-        </div>
-      )}
+  {selectedType !== "tags" ? (
+    filteredCards.length > 0 ? (
+      filteredCards.map((card) => (
+        <Card
+          key={card._id}
+          id={card._id}
+          title={card.title}
+          link={card.link}
+          type={card.types}
+          onDeleteSuccess={(deletedId) =>
+            setCards((prev) => prev.filter((c) => c._id !== deletedId))
+          }
+          deleteIcon={true}
+        />
+      ))
+    ) : (
+      <div className="col-span-3 text-center text-gray-500 text-lg">
+        No {selectedType === "all" ? "content" : selectedType} available.
+      </div>
+    )
+  ) : (
+    <div className="p-6 text-gray-600 text-lg">
+      {/* Replace with tag UI */}
+      <p>Tags View Coming Soon...</p>
     </div>
-
+  )}
+</div>
   </div>
   </div>
 }

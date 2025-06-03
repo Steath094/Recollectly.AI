@@ -6,11 +6,12 @@ import SignupPage from "./pages/SignupPage"
 import { Provider } from 'react-redux'
 import store from './store/store'
 import SharePage from "./pages/SharePage"
+import AuthLayout from './components/AuthLayout'
 function App() {
   return <BrowserRouter>
   <Provider store={store}>
     <Routes>
-      <Route path="/dashboard" element={<Dashboard/>}/>
+      <Route path="/dashboard" element={<AuthLayout authentication={true}><Dashboard/></AuthLayout> }/>
       <Route path="/" element={<Home/>}/>
       <Route path="/login" element={<LoginPage/>}/>
       <Route path="/signup" element={<SignupPage/>}/>

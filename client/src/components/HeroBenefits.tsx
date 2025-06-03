@@ -79,7 +79,7 @@ function Card(props: any) {
 
   return (
     <motion.div
-      className="w-96 h-80 absolute top-10 cursor-grab "
+      className="w-56 md:w-80 lg:w-96 h-64 md:h-72 lg:h-80 absolute top-10 cursor-grab"
       style={{ x, rotate }}
       whileTap={{ cursor: "grabbing" }}
       drag={props.drag}
@@ -114,23 +114,22 @@ function Card(props: any) {
 export function Example() {
   const [index, setIndex] = useState(0);
   return (
-    <motion.div className="w-full h-[450px] relative flex justify-center items-end">
-        <AnimatePresence initial={false} mode="wait">
-            <Card
-                key={`back-${index + 1}`} // force remount of back card
-                index={index + 1}
-                setIndex={setIndex}
-                frontCard={false}
-            />
-            <Card
-                key={`front-${index}`} // unique key for front card
-                index={index}
-                setIndex={setIndex}
-                frontCard={true}
-                drag="x"
-            />
-        </AnimatePresence>
-
+    <motion.div className="w-full h-[380px] md:h-[420px] lg:h-[450px] relative flex justify-center items-end">
+      <AnimatePresence initial={false} mode="wait">
+        <Card
+          key={`back-${index + 1}`}
+          index={index + 1}
+          setIndex={setIndex}
+          frontCard={false}
+        />
+        <Card
+          key={`front-${index}`}
+          index={index}
+          setIndex={setIndex}
+          frontCard={true}
+          drag="x"
+        />
+      </AnimatePresence>
     </motion.div>
   );
 }
