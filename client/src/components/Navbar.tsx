@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { BrainIcon } from "../Icons/BrainIcon";
 import { Button } from "./Button";
 import MoonIcon from "../Icons/MoonIcon";

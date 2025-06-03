@@ -88,7 +88,7 @@ function Card(props: any) {
       <motion.div
         className="w-full h-full rounded-3xl p-6 flex flex-col justify-center items-center text-center 
           bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 
-          shadow-md dark:shadow-lg outline outline-1 outline-gray-200 dark:outline-gray-800"
+          shadow-md dark:shadow-lg outline-1 outline-gray-200 dark:outline-gray-800"
         style={{ scale }}
       >
         <h3 className="text-xl font-semibold mb-3">{currentBenefit.title}</h3>
