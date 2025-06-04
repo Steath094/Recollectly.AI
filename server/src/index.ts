@@ -1,6 +1,6 @@
 import  express,{ Express, Request, Response } from "express";
 import connectDB from "./db";
-import z from "zod"
+import z, { string } from "zod"
 import { Content, Link, Tag, User } from "./db/models";
 import { ApiResponse } from "./Utils/ApiResponse";
 import { ApiError } from "./Utils/ApiError";
@@ -9,8 +9,7 @@ import jwt from "jsonwebtoken"
 import { userMiddleware } from "./middleware";
 import { random } from "./Utils/Random";
 import env from "./endpoints.config"
-import { log } from "console";
-import { embedAndStore } from "./worker";
+import { deleteVector, embedAndStore } from "./worker";
 import cors from 'cors';
 const app = express();
 app.use(express.json());
@@ -154,6 +153,11 @@ app.delete("/api/v1/content/:contentId",userMiddleware,async(req:Request,res:Res
         if (!deleteContent) {
             throw new ApiError(404, "Content not found");
         }
+        const content = {
+            id: contentId as string,
+            userId: userId as string
+        }
+        await deleteVector(content);
         res
         .status(200)
         .json(

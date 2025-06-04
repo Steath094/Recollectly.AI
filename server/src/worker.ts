@@ -1,13 +1,9 @@
-import { QdrantFilter, QdrantVectorStore } from "@langchain/qdrant";
-import { Document } from "@langchain/core/documents";
+import { QdrantVectorStore } from "@langchain/qdrant";
 import { GoogleGenerativeAIEmbeddings } from "@langchain/google-genai";
 import { TaskType } from "@google/generative-ai";
 import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
 import { QdrantClient } from "@qdrant/js-client-rest";
 import env from "./endpoints.config";
-import { title } from "process";
-import { link } from "fs";
-import { filterMessages } from "@langchain/core/messages";
 import { log } from "console";
 
 const client = new QdrantClient({ url: env.QDRANT_URL,checkCompatibility:false,apiKey: env.QDRANT_API_KEY});
@@ -18,23 +14,57 @@ const embeddings = new GoogleGenerativeAIEmbeddings({
   title: "Document title",
   apiKey: env.GOOGLE_API_KEY
 });
+
+
 export const embedAndStore = async (content:{_id:string,title:string,link:string,type:string,userId:string}) =>{
     const texts = [`${content?.title} ${content?.link} `.trim()]
     const vectorStore = await QdrantVectorStore.fromTexts(
         texts,
-        {   
+        [{   
             id: content._id,
             title: content.title,
             userId: content.userId,
             link: content.link,
             type: content.type
-        },
+        }],
         embeddings, {
         client,
         collectionName: "content-vector",
       });
       
 }
+export const deleteVector = async (content: {
+  id: string,
+  userId: string
+}) => {
+  try {
+    const deleteResponse = await client.delete("content-vector", {
+  wait: true,
+  filter: {
+    must: [
+      {
+        key: "metadata.id",
+        match: {
+          value: content.id,
+        },
+      },
+      {
+        key: "metadata.userId",
+        match: {
+          value: content.userId,
+        },
+      },
+    ],
+  },
+});
+
+    console.log("✅ Delete response:", deleteResponse);
+  } catch (error) {
+    console.error("❌ Failed to delete vector:", error);
+    throw error;
+  }
+};
+
 const queryDB = async (query: string,userId:string) => {
 
     const vectorStore = await QdrantVectorStore.fromExistingCollection(
@@ -85,4 +115,3 @@ export const searchDb = async (query:string,userId:string) =>{
     )
     return result;
 }
-searchDb("images",'68165dfdb9c626d0b53d4863')
