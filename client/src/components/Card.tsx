@@ -14,11 +14,15 @@ interface cardProp {
   title: string;
   link: string;
   type: "tweet" | "youtube" | "document" | "blog";
+  tags: [{
+    _id:string,
+    title:string
+  }]
   onDeleteSuccess?: (id: string) => void; // optional callback if you want to remove card from parent
   deleteIcon?:boolean;
 }
 
-export function Card({ id, title, link, type, onDeleteSuccess, deleteIcon }: cardProp) {
+export function Card({ id, title, link, type,tags, onDeleteSuccess, deleteIcon }: cardProp) {
   const token = useSelector((state: any) => state.auth.token);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 
@@ -136,6 +140,11 @@ export function Card({ id, title, link, type, onDeleteSuccess, deleteIcon }: car
             </div>
           </div>
         )}
+      </div>
+      <div className="flex gap-2 pt-4 flex-wrap">
+        {tags.map(tag=>(
+          <div key={tag._id} className="px-2 rounded-lg bg-[#e1e8ff] text-[#0000a4] ">{tag.title}</div>
+        ))}
       </div>
     </div>
   );

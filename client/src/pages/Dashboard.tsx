@@ -15,6 +15,10 @@ interface CardType {
   title: string;
   link: string;
   types: "tweet" | "youtube" | "document" | "blog";
+  tags: [{
+    _id:string,
+    title:string
+  }]
 }
 
 export function Dashboard() {
@@ -39,8 +43,7 @@ export function Dashboard() {
   const filteredCards =
     selectedType === "all" || selectedType === "tags"
       ? cards
-      : cards.filter((card) => card.types === selectedType);
-
+      : cards.filter((card) => card.types === selectedType);  
   return (
     <div className="flex min-h-screen bg-[#f9fbfc] dark:bg-zinc-900 text-gray-900 dark:text-white overflow-hidden">
       <Sidebar onSelect={setSelectedType} />
@@ -93,6 +96,7 @@ export function Dashboard() {
                   title={card.title}
                   link={card.link}
                   type={card.types}
+                  tags={card.tags}
                   onDeleteSuccess={(deletedId) =>
                     setCards((prev) =>
                       prev.filter((c) => c._id !== deletedId)

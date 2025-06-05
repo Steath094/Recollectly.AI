@@ -5,6 +5,7 @@ import { CrossIcons } from "../Icons/CrossIcons";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
 import { useSelector } from "react-redux";
+import { PlusIcon } from "../Icons/PlusIcon";
 
 const ContentType = {
   Youtube: "youtube",
@@ -16,9 +17,27 @@ const ContentType = {
 export function CreateContentModal({ setModalOpen }: any) {
   const titleRef = useRef<HTMLInputElement>(null);
   const linkRef = useRef<HTMLInputElement>(null);
+  const tagRef = useRef<HTMLInputElement>(null);
   const [type, setType] = useState(ContentType.Youtube);
   const token = useSelector((state: any) => state.auth.token);
+  const [tags,setTags] = useState<string[]>([]);
+  const [tagIds,setTagIds] = useState<string[]>([]);
 
+  const addTag = async () =>{
+    const response = await axios.post(`${BACKEND_URL}/api/v1/tag`,{
+      tagTitle: tagRef.current?.value
+    },{
+      headers: {
+        Authorization: token,
+      },})
+      console.log(response.data);
+      
+    setTags([...tags as string[],tagRef.current?.value as string])
+    tagRef.current!.value='';
+    setTagIds([...tagIds ,response.data.data._id])
+  }
+  console.log(tagIds);
+  
   const handleContentSubmit = async () => {
     const title = titleRef.current?.value;
     const link = linkRef.current?.value;
@@ -31,6 +50,7 @@ export function CreateContentModal({ setModalOpen }: any) {
           title,
           link,
           type,
+          tags: tagIds
         },
         {
           headers: {
@@ -55,7 +75,7 @@ export function CreateContentModal({ setModalOpen }: any) {
        style={{ backgroundColor: 'rgba(0, 0, 0, 0.85)' }} 
     >
       <div
-        className="bg-white dark:bg-gray-900 p-4 sm:p-6 md:p-8 rounded-lg shadow-xl relative w-full max-w-xs sm:max-w-sm md:max-w-md mx-4 sm:mx-6 md:mx-8"
+        className="bg-white dark:bg-gray-900 p-4 sm:p-6 md:p-8 rounded-lg shadow-xl relative w-full max-w-xs sm:max-w-sm md:max-w-lg mx-4 sm:mx-6 md:mx-8"
         onClick={(e) => e.stopPropagation()} // prevent closing when clicking inside modal
       >
         <button
@@ -99,7 +119,19 @@ export function CreateContentModal({ setModalOpen }: any) {
               ))}
             </div>
           </div>
-          <div className="flex justify-center mt-6">
+          <div>
+            <label className="text-gray-800 dark:text-gray-200 font-medium" htmlFor="tag">Tag</label>
+            <div className="flex gap-2 mt-2">
+              <Input ref={tagRef} type="text" placeholder="Add a Tag"/>
+              <Button onClick={addTag} variant="secondary" text={''} startIcon={<PlusIcon/>}></Button>
+            </div>
+            <div className="flex gap-2 mt-2 flex-wrap">
+              {tags.map(tag=>(
+                <div className="px-2 rounded-lg bg-[#e1e8ff] text-[#0000a4] ">{tag}</div>
+              ))}
+            </div>
+          </div>
+          <div  className="flex justify-center mt-6">
             <Button
               onClick={handleContentSubmit}
               text="Submit"

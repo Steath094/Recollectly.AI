@@ -9,8 +9,9 @@ import jwt from "jsonwebtoken"
 import { userMiddleware } from "./middleware";
 import { random } from "./Utils/Random";
 import env from "./endpoints.config"
-import { deleteVector, embedAndStore } from "./worker";
+import { embedAndStore } from "./worker";
 import cors from 'cors';
+import mongoose from "mongoose";
 const app = express();
 app.use(express.json());
 app.use(cors())
@@ -127,9 +128,44 @@ app.post("/api/v1/content",userMiddleware,async (req:Request,res:Response)=>{
 })
 app.get("/api/v1/content",userMiddleware,async (req:Request,res:Response)=>{
     try {
-        const contents = await Content.find({
-            userId: req.userId
-        }).populate("userId","userName");
+       const contents = await Content.aggregate([
+    {
+        $match: { userId: new mongoose.Types.ObjectId(req.userId) }
+    },
+    {
+        $lookup: {
+            from: 'tags', // collection name in MongoDB (lowercase and plural of 'Tag')
+            localField: 'tags',
+            foreignField: '_id',
+            as: 'tags'
+        }
+    },
+    {
+        $lookup: {
+            from: 'users', // collection name in MongoDB (lowercase and plural of 'User')
+            localField: 'userId',
+            foreignField: '_id',
+            as: 'user'
+        }
+    },
+    {
+        $unwind: '$user'
+    },
+    {
+        $project: {
+            _id: 1,
+            title: 1,
+            link: 1,
+            types: 1,
+            tags: { _id: 1, title: 1 },
+            userId: '$user._id',
+            userName: '$user.userName',
+            createdAt: 1,
+            updatedAt: 1
+        }
+    }
+]);
+
         res
         .status(200)
         .json(
@@ -157,7 +193,6 @@ app.delete("/api/v1/content/:contentId",userMiddleware,async(req:Request,res:Res
             id: contentId as string,
             userId: userId as string
         }
-        await deleteVector(content);
         res
         .status(200)
         .json(

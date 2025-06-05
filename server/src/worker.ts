@@ -4,7 +4,6 @@ import { TaskType } from "@google/generative-ai";
 import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
 import { QdrantClient } from "@qdrant/js-client-rest";
 import env from "./endpoints.config";
-import { log } from "console";
 
 const client = new QdrantClient({ url: env.QDRANT_URL,checkCompatibility:false,apiKey: env.QDRANT_API_KEY});
 
@@ -33,37 +32,6 @@ export const embedAndStore = async (content:{_id:string,title:string,link:string
       });
       
 }
-export const deleteVector = async (content: {
-  id: string,
-  userId: string
-}) => {
-  try {
-    const deleteResponse = await client.delete("content-vector", {
-  wait: true,
-  filter: {
-    must: [
-      {
-        key: "metadata.id",
-        match: {
-          value: content.id,
-        },
-      },
-      {
-        key: "metadata.userId",
-        match: {
-          value: content.userId,
-        },
-      },
-    ],
-  },
-});
-
-    console.log("✅ Delete response:", deleteResponse);
-  } catch (error) {
-    console.error("❌ Failed to delete vector:", error);
-    throw error;
-  }
-};
 
 const queryDB = async (query: string,userId:string) => {
 
