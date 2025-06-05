@@ -9,6 +9,9 @@ import axios from "axios";
 import { BACKEND_URL } from "../config";
 import { useSelector } from "react-redux";
 import { ShareableLinkModal } from "../components/ShareableLinkModal";
+import Search from "../components/Search";
+import ChatAI from "../components/ChatAI";
+import { CardSkeleton } from "../components/CardSkeleton";
 
 interface CardType {
   _id: string;
@@ -24,24 +27,29 @@ interface CardType {
 export function Dashboard() {
   const [modalOpen, setModalOpen] = useState(false);
   const [shareableLinkModal, setShareableLinkModal] = useState(false);
-  const [selectedType, setSelectedType] = useState<"all" | "tweet" | "youtube" | "document" | "blog" | "tags">("all");
-
+  const [selectedType, setSelectedType] = useState<"all" | "tweet" | "youtube" | "document" | "blog" | "tags" |"search"|"gemini">("all");
+  const [loading, setLoading] = useState(true);
   const token = useSelector((state: any) => state.auth.token);
 
   const [cards, setCards] = useState<CardType[]>([]);
 
   useEffect(() => {
-    axios.get(`${BACKEND_URL}/api/v1/content`, {
-      headers: {
-        Authorization: token,
-      },
-    }).then((response) => {
+  setLoading(true); // ← start loading
+  axios.get(`${BACKEND_URL}/api/v1/content`, {
+    headers: {
+      Authorization: token,
+    },
+  })
+    .then((response) => {
       setCards(response.data.data);
-    });
-  }, [modalOpen]);
+    })
+    .catch((err) => console.error(err))
+    .finally(() => setLoading(false)); // ← done
+}, [modalOpen]);
+
 
   const filteredCards =
-    selectedType === "all" || selectedType === "tags"
+    selectedType === "all" || selectedType === "tags" || selectedType ==='search' || selectedType ==='gemini'
       ? cards
       : cards.filter((card) => card.types === selectedType);  
   return (
@@ -86,9 +94,13 @@ export function Dashboard() {
         {modalOpen && <CreateContentModal setModalOpen={setModalOpen} />}
 
         {/* Cards */}
+        {selectedType=='search' && <Search cards={cards}/>}
+        {selectedType=='gemini' && <ChatAI />}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pb-10">
-          {selectedType !== "tags" ? (
-            filteredCards.length > 0 ? (
+          {selectedType !== "tags" && selectedType !== "search" && selectedType !== "gemini" ? (
+            loading ? (
+              Array.from({ length: 6 }).map((_, i) => <CardSkeleton key={i} />)
+            ) : filteredCards.length > 0 ? (
               filteredCards.map((card) => (
                 <Card
                   key={card._id}
@@ -98,9 +110,7 @@ export function Dashboard() {
                   type={card.types}
                   tags={card.tags}
                   onDeleteSuccess={(deletedId) =>
-                    setCards((prev) =>
-                      prev.filter((c) => c._id !== deletedId)
-                    )
+                    setCards((prev) => prev.filter((c) => c._id !== deletedId))
                   }
                   deleteIcon={true}
                 />
@@ -111,11 +121,15 @@ export function Dashboard() {
               </div>
             )
           ) : (
-            <div className="p-6 text-gray-600 dark:text-gray-400 text-lg">
-              <p>Tags View Coming Soon...</p>
-            </div>
+            selectedType === "tags" && (
+              <div className="p-6 text-gray-600 dark:text-gray-400 text-lg">
+                <p>Tags View Coming Soon...</p>
+              </div>
+            )
           )}
+
         </div>
+
       </div>
     </div>
   );

@@ -54,6 +54,8 @@ const queryDB = async (query: string,userId:string) => {
   });
 export const queryChat = async (query: string,userId:string) => {
     const responses = await queryDB(query,userId);
+    // console.log(responses);
+    
     const SYSTEM = `You are a helpful AI assistant.
 
 Your job is to answer user queries using the context of the provided links. These links point to tweets, YouTube videos, documents, or blog posts saved by the user.
@@ -73,7 +75,8 @@ links:-${responses}
         ["system",SYSTEM],
         ["user",query]
     ])
-    console.log(chatRes);
+    // console.log(chatRes);
+    return chatRes;
     
 }
 export const searchDb = async (query:string,userId:string) =>{

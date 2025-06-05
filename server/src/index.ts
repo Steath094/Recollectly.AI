@@ -9,7 +9,7 @@ import jwt from "jsonwebtoken"
 import { userMiddleware } from "./middleware";
 import { random } from "./Utils/Random";
 import env from "./endpoints.config"
-import { embedAndStore } from "./worker";
+import { embedAndStore, queryChat, searchDb } from "./worker";
 import cors from 'cors';
 import mongoose from "mongoose";
 const app = express();
@@ -26,7 +26,7 @@ app.post("/api/v1/signup", async (req: Request, res: Response) => {
             password: z
               .string()
               .min(8, "Password should be at least 8 characters long")
-              .max(20, "Password should be at most 10 characters long")
+              .max(20, "Password should be at most 20 characters long")
               .regex(/[a-z]/, "Password must include at least one lowercase letter")
               .regex(/[A-Z]/, "Password must include at least one uppercase letter")
               .regex(/[0-9]/, "Password must include at least one number")
@@ -261,7 +261,36 @@ app.get("/api/v1/brain/:shareLink", async (req, res) => {
     res.json(new ApiResponse(200,{ userName: user.userName,content},"Content Fetched Successfully"))
 
 })
-
+app.get("/api/v1/search",userMiddleware,async (req:Request,res:Response)=>{
+    try {
+        const query = req.query.query;
+        const userId = req.userId;
+        const response = await searchDb(query as string,userId as string);
+        res
+        .status(200)
+        .json(
+            new ApiResponse(200, response, "Sreach Response")
+        );
+    } catch (error) {
+        console.error("Search response Error:", error);
+        res.status(500).json(new ApiResponse(500, null,"Internal server error"));
+    }
+})
+app.post("/api/v1/chat/ai",userMiddleware,async (req:Request,res:Response)=>{
+    try {
+        const {query} = req.body;
+        const userId = req.userId;
+        const response = await queryChat(query,userId as string);
+        res
+        .status(200)
+        .json(
+            new ApiResponse(200, response, "Response From AI")
+        );
+    } catch (error) {
+        console.error("LLM response Error:", error);
+        res.status(500).json(new ApiResponse(500, null,"Internal server error"));
+    }
+})
 
 connectDB()
 .then(() => {

@@ -9,9 +9,11 @@ import { Button } from "./Button";
 import LogoutIcon from "../Icons/LogoutIcon";
 import { useDispatch } from "react-redux";
 import { logout } from "../store/authSlice";
+import SearchIcon from "../Icons/SearchIcon";
+import GeminiAIIcon from "../Icons/GeminiAIIcon";
 
 interface SidebarProps {
-  onSelect: (type: "tweet" | "youtube" | "document" | "blog" | "tags") => void;
+  onSelect: (type: "tweet" | "youtube" | "document" | "blog" | "tags" |"all" | "search"| "gemini") => void;
 }
 
 export function Sidebar({ onSelect }: SidebarProps) {
@@ -42,6 +44,8 @@ export function Sidebar({ onSelect }: SidebarProps) {
           <SidebarItem text="Videos" ItemIcon={<YoutubeIcon />} onClick={() => onSelect("youtube")} />
           <SidebarItem text="Documents" ItemIcon={<DocumentIcon />} onClick={() => onSelect("document")} />
           <SidebarItem text="Links" ItemIcon={<LinkIcon />} onClick={() => onSelect("blog")} />
+          <SidebarItem text="Search" ItemIcon={<SearchIcon />} onClick={() => onSelect("search")} />
+          <SidebarItem text="Ask AI" ItemIcon={<GeminiAIIcon />} onClick={() => onSelect("gemini")} />
           {/* <SidebarItem text="Tags" ItemIcon={<HashtagIcon />} onClick={() => onSelect("tags")} /> */}
         </div>
 
@@ -96,6 +100,24 @@ export function Sidebar({ onSelect }: SidebarProps) {
         >
           <LinkIcon />
           <span className="text-xs mt-1">Links</span>
+        </button>
+        <button
+          aria-label="Links"
+          onClick={() => onSelect("search")}
+          className="flex flex-col items-center text-gray-600 dark:text-gray-300 hover:text-[#5146e3] dark:hover:text-[#818cf8]"
+          title="Search"
+        >
+          <SearchIcon />
+          <span className="text-xs mt-1">Search</span>
+        </button>
+        <button
+          aria-label="Links"
+          onClick={() => onSelect("gemini")}
+          className="flex flex-col items-center text-gray-600 dark:text-gray-300 hover:text-[#5146e3] dark:hover:text-[#818cf8]"
+          title="Ask AI"
+        >
+          <GeminiAIIcon />
+          <span className="text-xs mt-1">Ask AI</span>
         </button>
 
         <button

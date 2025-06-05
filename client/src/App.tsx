@@ -7,6 +7,7 @@ import { Provider } from 'react-redux'
 import store from './store/store'
 import SharePage from "./pages/SharePage"
 import AuthLayout from './components/AuthLayout'
+import NotFound from "./pages/NotFound"
 function App() {
   return <BrowserRouter>
   <Provider store={store}>
@@ -16,6 +17,7 @@ function App() {
       <Route path="/login" element={<LoginPage/>}/>
       <Route path="/signup" element={<SignupPage/>}/>
       <Route path="/share/:id" element={<SharePage/>}/>
+      <Route path="*" element={<NotFound />} />
     </Routes>
   </Provider>
     
