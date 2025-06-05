@@ -8,7 +8,14 @@ import store from './store/store'
 import SharePage from "./pages/SharePage"
 import AuthLayout from './components/AuthLayout'
 import NotFound from "./pages/NotFound"
+import { useEffect } from "react"
+import { BACKEND_URL } from "./config"
+import axios from "axios"
 function App() {
+  useEffect(() => {
+      axios.get(`${BACKEND_URL}/api/v1/brain/abc`).then().catch()
+  },[])
+  
   return <BrowserRouter>
   <Provider store={store}>
     <Routes>
