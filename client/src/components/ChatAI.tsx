@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import axios from "axios";
 import { motion } from "framer-motion";
-import { SendHorizonal, User, Bot, Moon, Sun } from "lucide-react";
+import { SendHorizonal, User, Bot} from "lucide-react";
 import { useSelector } from "react-redux";
 
 export default function ChatAI() {
@@ -10,6 +10,7 @@ export default function ChatAI() {
   const [aiResponse, setAiResponse] = useState("");
   const [isThinking, setIsThinking] = useState(false);
   const [hasSubmitted, setHasSubmitted] = useState(false);
+  //@ts-ignore
   const [isDark, setIsDark] = useState(false);
 
   const token = useSelector((state: any) => state.auth.token);
