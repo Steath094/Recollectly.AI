@@ -14,6 +14,8 @@ interface CardType {
     _id: string;
     title: string;
   }];
+  onDeleteSuccess?: (id: string) => void; // optional callback if you want to remove card from parent
+  deleteIcon?:boolean;
 }
 
 interface SearchProps {

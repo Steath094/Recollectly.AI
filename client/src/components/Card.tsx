@@ -14,7 +14,7 @@ interface cardProp {
   title: string;
   link: string;
   type: "tweet" | "youtube" | "document" | "blog";
-  tags: [{
+  tags?: [{
     _id:string,
     title:string
   }]
@@ -142,7 +142,7 @@ export function Card({ id, title, link, type,tags, onDeleteSuccess, deleteIcon }
         )}
       </div>
       <div className="flex gap-2 pt-4 flex-wrap">
-        {tags.map(tag=>(
+        {tags?.map(tag=>(
           <div key={tag._id} className="px-2 rounded-lg bg-[#e1e8ff] text-[#0000a4] ">{tag.title}</div>
         ))}
       </div>
