@@ -27,7 +27,7 @@ export function ShareableLinkModal({ isOpen, onClose, frontendUrl }: ShareModalP
           },
         }
       );
-      const hash = res.data.hash;
+      const hash =await res.data.hash;
       setShareLink(`${frontendUrl}/share/${hash}`);
     } catch (err) {
       console.error("Failed to create share link", err);

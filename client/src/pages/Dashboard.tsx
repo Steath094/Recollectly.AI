@@ -88,7 +88,7 @@ export function Dashboard() {
           <ShareableLinkModal
             isOpen={shareableLinkModal}
             onClose={() => setShareableLinkModal(false)}
-            frontendUrl="localhost:5173"
+            frontendUrl="https://recollectlyai.vercel.app/"
           />
         )}
         {modalOpen && <CreateContentModal setModalOpen={setModalOpen} />}
